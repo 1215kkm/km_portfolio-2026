@@ -198,6 +198,7 @@
          =========================================================== -->
     <div id="hero-image" class="fixed md:w-[600px] overflow-hidden z-30 will-change-transform">
         <img id="hero-img" src="images/km1.png" alt="">
+        <img id="hero-img-overlay" alt="" aria-hidden="true">
     </div>
 
     <!-- 통합 컨테이너 -->
@@ -856,6 +857,7 @@
             //   섹션1·2·3·4를 지날 때마다 부드럽게 페이드되며 바뀜
             // ==========================================
             const heroImg = document.getElementById('hero-img');
+            const heroImgOverlay = document.getElementById('hero-img-overlay');
             const heroImageBox = document.getElementById('hero-image');
             const heroImageSrcs = {
                 1: 'images/km1.png',
@@ -867,25 +869,33 @@
             };
             let currentHeroImg = 1;
 
+            // Crossfade: preload the next image into the overlay layer, fade it
+            // in on top of the current image, then promote it to the primary
+            // layer (which keeps the container in normal flow / sized).
             function swapHeroImage(n) {
                 if (n === currentHeroImg || !heroImageSrcs[n]) return;
-                const testImage = new Image();
-                testImage.onload = () => {
+                const nextSrc = heroImageSrcs[n];
+                const preload = new Image();
+                preload.onload = () => {
                     currentHeroImg = n;
-                    gsap.to(heroImg, {
-                        opacity: 0,
-                        duration: 0.25,
-                        ease: 'power1.in',
+                    heroImgOverlay.src = nextSrc;
+                    gsap.set(heroImgOverlay, { opacity: 0 });
+                    gsap.to(heroImgOverlay, {
+                        opacity: 1,
+                        duration: 0.5,
+                        ease: 'power2.inOut',
                         onComplete: () => {
-                            heroImg.src = heroImageSrcs[n];
-                            gsap.to(heroImg, { opacity: 1, duration: 0.25, ease: 'power1.out' });
+                            heroImg.src = nextSrc;
+                            requestAnimationFrame(() => {
+                                gsap.set(heroImgOverlay, { opacity: 0 });
+                            });
                         }
                     });
                 };
-                testImage.onerror = () => {
-                    console.warn('Missing hero image:', heroImageSrcs[n]);
+                preload.onerror = () => {
+                    console.warn('Missing hero image:', nextSrc);
                 };
-                testImage.src = heroImageSrcs[n];
+                preload.src = nextSrc;
             }
 
             ScrollTrigger.create({

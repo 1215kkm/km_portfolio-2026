@@ -10,3 +10,9 @@
     object-fit: contain;
     display: block;
 }
+#hero-image #hero-img-overlay {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+}
