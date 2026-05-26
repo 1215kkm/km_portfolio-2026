@@ -68,6 +68,146 @@
 
         .pf-item:nth-child(even) { margin-top: 8rem; }
 
+        /* 섹션3 다크 → 라이트 전환 (초기 검정, 화면 1/2 보이면 흰색) */
+        #section3 {
+            transition: background-color 0.6s ease;
+        }
+        #section3 .bg-\[\#f8f9fa\],
+        #section3 .bg-white {
+            transition: background-color 0.6s ease;
+        }
+        #section3 .text-gray-900,
+        #section3 .text-gray-500,
+        #section3 .text-gray-400,
+        #section3 .text-gray-300,
+        #section3 .text-blue-600 {
+            transition: color 0.6s ease;
+        }
+        #section3 .border-gray-900,
+        #section3 .border-gray-200 {
+            transition: border-color 0.6s ease;
+        }
+        #section3.is-dark { background-color: #CE4545 !important; }
+        #section3.is-dark .bg-\[\#f8f9fa\] { background-color: #CE4545 !important; }
+        #section3.is-dark .bg-white { background-color: #b83a3a !important; }
+        #section3.is-dark .text-gray-900 { color: #ffffff !important; }
+        #section3.is-dark .text-gray-500 { color: #ffe1e1 !important; }
+        #section3.is-dark .text-gray-400 { color: #ffcdcd !important; }
+        #section3.is-dark .text-gray-300 { color: #ffb1b1 !important; }
+        #section3.is-dark .text-blue-600 { color: #fff39e !important; }
+        #section3.is-dark .border-gray-900 { border-color: #ffffff !important; }
+        #section3.is-dark .border-gray-200 { border-color: #a82e2e !important; }
+
+        /* 학생 포폴 호버 - 강사 평가 말풍선 (썸네일 좌측 표시) */
+        .pf-item { position: relative; }
+        .pf-tooltip {
+            position: absolute;
+            right: calc(100% + 18px);
+            top: 0;
+            left: auto;
+            bottom: auto;
+            transform: translateX(12px);
+            width: 480px;
+            max-width: 90vw;
+            background: #CE4545;
+            color: #ffffff;
+            padding: 32px 36px;
+            border-radius: 14px;
+            border: 3px solid #ffffff;
+            font-size: 18px;
+            line-height: 1.6;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            box-shadow: 0 16px 40px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,0,0,0.05);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            z-index: 999;
+            white-space: normal;
+            word-break: keep-all;
+        }
+        .pf-tooltip::before {
+            content: '강쌤 한마디';
+            display: block;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            color: #FFAE00;
+            margin-bottom: 14px;
+        }
+        .pf-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 36px;
+            left: 100%;
+            border-width: 8px 0 8px 10px;
+            border-style: solid;
+            border-color: transparent transparent transparent #CE4545;
+        }
+        .pf-item:hover .pf-tooltip {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* 섹션4 후기 hover - 강쌤 댓글 말풍선 (카드 아래 표시) */
+        .testimonial-item {
+            position: relative;
+            z-index: 1;
+            transition: z-index 0s linear 0.25s;          /* 닫힐 때만 약간 지연 */
+        }
+        .testimonial-item:hover {
+            z-index: 9999;                                /* hover 시 다른 기수 위로 */
+            transition: z-index 0s;
+        }
+        .testi-tooltip {
+            position: absolute;
+            top: calc(100% + 18px);
+            left: 60px;
+            right: 0;
+            width: auto;
+            max-width: 480px;
+            background: #CE4545;
+            color: #ffffff;
+            padding: 28px 32px;
+            border-radius: 14px;
+            border: 3px solid #ffffff;
+            font-size: 17px;
+            line-height: 1.6;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            box-shadow: 0 16px 40px rgba(0,0,0,0.30), 0 0 0 1px rgba(0,0,0,0.05);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            transform: translateY(8px);
+            z-index: 999;
+            white-space: normal;
+            word-break: keep-all;
+        }
+        .testi-tooltip::before {
+            content: '강쌤 댓글';
+            display: block;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            color: #FFAE00;
+            margin-bottom: 12px;
+        }
+        .testi-tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 36px;
+            border-width: 0 8px 10px 8px;
+            border-style: solid;
+            border-color: transparent transparent #CE4545 transparent;
+        }
+        .testimonial-item:hover .testi-tooltip {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
         .marquee-wrapper {
             position: relative;
             height: 100%;
@@ -146,6 +286,75 @@
         @media (min-width: 768px) {
             .s1-text-main { font-size: 44px; }
             .s1-text-sub { font-size: 15px; }
+        }
+
+        /* ============================================
+           모바일(<768px) - hero-image fixed 숨기고 각 섹션에 inline 이미지 사용
+           섹션1 글자 그룹의 absolute 위치를 풀어 세로 stack 으로 표시
+           ============================================ */
+        @media (max-width: 767px) {
+            /* 데스크탑용 이동 km 이미지 숨김 */
+            #hero-image { display: none !important; }
+
+            /* 섹션1 컨테이너 - 자연 흐름 + 세로 스택 */
+            #section1 {
+                height: auto !important;
+                min-height: 100vh;
+                padding: 5.5rem 1.5rem 3rem !important;
+                justify-content: flex-start !important;
+                gap: 1.25rem;
+            }
+
+            /* 모바일: 붉은 패널을 PC 처럼 가운데 1/3 폭 띠로 (선명하게)
+               - GSAP 가 inline transform/scaleX 를 계속 적용하므로 !important 로 덮어씀 */
+            .s1-red-panel {
+                opacity: 1 !important;
+                left: 50% !important;
+                right: auto !important;
+                top: 0 !important;
+                width: 33.333% !important;     /* 화면의 1/3 폭 */
+                height: 100% !important;
+                transform: translateX(-50%) !important;   /* 정중앙 정렬 (GSAP scaleX 무효화) */
+            }
+
+            /* 4개 텍스트 그룹: absolute → 일반 흐름, 좌측 정렬 통일 */
+            .s1-text-group {
+                position: static !important;
+                top: auto !important;
+                left: auto !important;
+                right: auto !important;
+                text-align: left !important;
+                margin: 0 0 1.25rem 0 !important;
+                width: 100%;
+            }
+            .s1-text-group.rt,
+            .s1-text-group.rb {
+                text-align: left !important;
+            }
+            .s1-text-group .s1-text-sub,
+            .s1-text-group.rt .s1-text-sub,
+            .s1-text-group.rb .s1-text-sub {
+                margin: 6px 0 0 14px !important;
+            }
+            .s1-text-main { font-size: 22px !important; line-height: 1.25; }
+            .s1-text-sub  { font-size: 12px !important; }
+
+            /* 모바일 km 이미지 컨테이너 공통 */
+            .km-mobile {
+                display: block;
+                width: 60%;
+                max-width: 240px;
+                margin: 1.25rem auto;
+                height: auto;
+            }
+            /* 히어로(섹션1)의 km 이미지는 PC 와 동일한 multiply 블렌딩 */
+            #section1 .km-mobile {
+                mix-blend-mode: multiply;
+            }
+        }
+        /* 모바일 km 이미지는 데스크탑에서 숨김 */
+        @media (min-width: 768px) {
+            .km-mobile { display: none !important; }
         }
 
         /* 섹션4 사진 자리 - 빈 칸일 때도 비율 유지를 위한 비주얼 강조 */
@@ -233,7 +442,6 @@
             <div class="s1-red-panel"></div>
 
             <!-- ★ 좌우 텍스트 그룹 4개 ★ -->
-           
 
             <!-- 좌측 상단 -->
             <div class="s1-text-group lt">
@@ -258,6 +466,9 @@
                 <h2 class="s1-text-main">88,968명 사용자 <br>icannote 판서앱 제작자</h2>
                 <p class="s1-text-sub"><a href="http://icannote.com" target="_blank">http://icannote.com 판서</a></p>
             </div>
+
+            <!-- 모바일 전용 강사 이미지 (데스크탑에서는 숨김) - 히어로 맨 아래 -->
+            <img src="images/km1.png" alt="강경모 강사" class="km-mobile relative z-20">
         </section>
 
         <!-- ==================== SECTION 2 ==================== -->
@@ -298,11 +509,13 @@
         </div>
 
         <!-- 중앙: 타이틀 -->
-        <div class="lg:w-2/5 h-screen sticky top-0 flex flex-col justify-center px-8 lg:px-16 border-r border-gray-200 bg-[#f8f9fa] z-10">
+        <div class="lg:w-2/5 lg:h-screen lg:sticky lg:top-0 flex flex-col justify-center px-8 lg:px-16 py-12 lg:py-0 border-r border-gray-200 bg-[#f8f9fa] z-10">
+            <!-- 모바일 전용 강사 이미지 -->
+            <img src="images/km4.png" alt="강경모 강사" class="km-mobile">
             <div class="mb-4">
                 <span class="inline-block w-12 h-[6px] bg-blue-600 mb-6"></span>
             </div>
-            <h2 class="text-5xl lg:text-[5rem] font-black leading-[1.1] tracking-tighter mb-6 text-gray-900">
+            <h2 class="text-5xl lg:text-[5rem] font-black tracking-tighter mb-6 text-gray-900" style="line-height: 1.0;">
                 <span id="word-haksaeng">학생</span><br>포트폴리오<br>모음.
             </h2>
             <p class="text-gray-500 text-lg tracking-tight font-light mt-4">
@@ -312,7 +525,8 @@
         </div>
 
         <!-- 우측: 썸네일 리스트 -->
-        <div class="lg:w-2/5 px-4 lg:px-12 py-20 bg-white">
+        <!-- ★ 중앙 sticky 영역(z-10)에 호버 말풍선이 가려지지 않도록 relative z-30 부여 -->
+        <div class="lg:w-2/5 px-4 lg:px-12 py-20 bg-white relative z-30">
             <div class="grid grid-cols-2 gap-x-6 gap-y-0" id="portfolio-grid">
                 <!-- 포트폴리오 아이템 동적 생성 -->
             </div>
@@ -353,7 +567,7 @@
                         <!-- 헤더 -->
                         <div class="mb-12 lg:mb-16">
                             <span class="inline-block w-12 h-[6px] bg-[#CE4545] mb-6"></span>
-                            <h2 id="section4-title" class="text-3xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-[1.05] mb-4 text-gray-900">
+                            <h2 id="section4-title" class="text-3xl md:text-5xl lg:text-6xl font-black tracking-tighter mb-4 text-gray-900" style="line-height: 1.1;">
                                 <span class="typing-line"></span><br>
                                 <span class="typing-line-2"></span>
                             </h2>
@@ -374,6 +588,9 @@
                                         저의 인생쌤을 만나 정말 저에겐 소중한 시간이었습니다. 받은 관심은 평생 잊지못할거예요 쌤 ㅜㅜ 정말 감사했습니다
                                     </p>
                                 </div>
+                                <div class="testi-tooltip">
+                                    너희들 정말 가족 같았어. 인생쌤이라는 말 들으니 오히려 내가 더 고맙다. 평생 응원할게.
+                                </div>
                             </div>
 
                             <!-- 14기 -->
@@ -386,6 +603,9 @@
                                     <p class="text-sm md:text-base lg:text-lg text-gray-800 leading-loose font-light pl-2 pt-3 relative z-10">
                                         모닝콜 감사했습니다 근데도 수업을 잘 못따라가서 죄송했습니다 ㅠㅠ 너무 감사했던 가르침을 기억하고 열심히 살겠습니다!
                                     </p>
+                                </div>
+                                <div class="testi-tooltip">
+                                    수업 못 따라가도 끝까지 자리 지킨 게 진짜 실력이야. 그 끈기 잊지 마. 충분히 잘하고 있어.
                                 </div>
                             </div>
 
@@ -400,6 +620,9 @@
                                         강엄마 덕분에 5개월간 너무 좋았습니다! 즐거웠어요 쌤 ㅠㅠ 특시 쉬는시간에 구워주신 토스트는 잊지 못할거에요~ 으아앙
                                     </p>
                                 </div>
+                                <div class="testi-tooltip">
+                                    강엄마 별명, 사실 너희들 덕분에 생긴 거야. 토스트는 다음 기수에도 계속 굽고 있을게. 보고 싶다.
+                                </div>
                             </div>
 
                             <!-- 16기 -->
@@ -412,6 +635,9 @@
                                     <p class="text-sm md:text-base lg:text-lg text-gray-800 leading-loose font-light pl-2 pt-3 relative z-10">
                                         너무 즐겁고 편하고 좋은 수업이었습니다. 준비해주신 매트리스에 쉬는시간 쪽잠은 피곤한 저희에겐 정말 꿀잠이었어요 ㅎㅎ 감사합니다~!!!
                                     </p>
+                                </div>
+                                <div class="testi-tooltip">
+                                    잘 자야 잘 배운다. 매트리스는 다음 기수에도 깔아둘 테니까, 너희들은 가서 꿀잠 자고 잘 살자.
                                 </div>
                             </div>
 
@@ -428,13 +654,13 @@
         <!-- 좌측 타이틀 + 사진 자리 -->
         <div class="md:w-1/4 h-24 md:h-full border-b md:border-b-0 md:border-r border-gray-200 flex items-center md:items-start justify-center md:justify-end md:py-20 md:pr-12 bg-[#fafafa] z-10 relative">
             <div class="flex items-center gap-4">
-                <h2 class="text-3xl md:text-7xl font-black tracking-tighter uppercase md:writing-vertical-rl text-gray-900">
+                <h2 class="text-3xl md:text-7xl font-black tracking-tighter uppercase md:writing-vertical-rl text-gray-900 leading-[1.4]">
                     HRD Review
                 </h2>
             </div>
 
-            <!-- 강사 사진 (원본 자연 사이즈 그대로) -->
-            <img src="images/km8.png" alt="강경모 강사" class="hidden md:block absolute bottom-10 left-10">
+            <!-- 강사 사진 (최대 높이 630px) -->
+            <img id="sec5-km" src="images/km6.png" alt="강경모 강사" class="hidden md:block absolute bottom-10 left-10 max-h-[630px] w-auto">
 
         </div>
 
@@ -463,6 +689,102 @@
         </div>
     </div>
 
+    <!-- ==================== SECTION ACADEMY (NEW: 강사가 본 학원의 진짜 모습) ==================== -->
+    <section id="section-academy" class="relative w-full min-h-screen overflow-hidden border-t border-gray-200">
+        <!-- 배경 이미지 (전체 섹션 커버, 스크롤시 확대) -->
+        <div id="academy-bg" class="absolute inset-0 bg-cover bg-center bg-no-repeat will-change-transform"
+             style="background-image: url('images/bg_academy.png');"></div>
+        <!-- 가독성을 위한 어두운 오버레이 -->
+        <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/70"></div>
+
+        <div class="relative max-w-[1600px] mx-auto px-6 lg:px-12 py-24 lg:py-32">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+
+                <!-- 좌측 타이틀 -->
+                <div class="lg:col-span-4 text-white lg:sticky lg:top-24">
+                    <span class="inline-block w-12 h-[6px] bg-[#CE4545] mb-6"></span>
+                    <div class="text-xs lg:text-sm text-[#CE4545] font-black tracking-[0.3em] mb-4">ACADEMY · TEACHER'S NOTE</div>
+                    <h2 class="text-3xl md:text-5xl lg:text-[3.5rem] font-black tracking-tighter leading-[1.1] mb-6">
+                        강경모쌤이 말하는 성남 그린컴퓨터를<br>선택해야 하는<br>이유
+                    </h2>
+                    <p class="text-gray-300 text-base lg:text-lg mt-4 font-light leading-relaxed">
+                        이유가 많은데~ <br>
+                        10년 가까이 함께 일하며 직접 본 진짜 모습.<br>
+                        디지털디자인 전국1등은 이 사람들과 함께라서 가능한 수업임.<br>
+                        다른학원과 비교가 너무 크게 될정도로 헌신적이고 열정적임<br>
+                        주변 국비학원다녀본 친구들있으면 다녔던곳 물어보길 바람
+
+                    </p>
+                </div>
+
+                <!-- 우측 4팀 그리드 -->
+                <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-7">
+
+                    <!-- 원장님 -->
+                    <div class="aca-card bg-white/95 backdrop-blur-sm p-7 lg:p-8 rounded-2xl shadow-2xl border-t-4 border-[#CE4545]">
+                        <div class="flex items-center gap-4 mb-5">
+                            <img src="images/aca1.png" alt="원장님" class="w-16 h-16 lg:w-20 lg:h-20 rounded-full object-cover ring-2 ring-[#CE4545]/40 bg-gray-100">
+                            <div>
+                                <div class="text-[10px] font-black tracking-[0.25em] text-[#CE4545] mb-1">DIRECTOR</div>
+                                <div class="text-xs text-gray-500 tracking-wider">원장님</div>
+                            </div>
+                        </div>
+                        <h3 class="text-lg lg:text-xl font-black text-gray-900 mb-3 leading-tight">이보다 좋을 순 없는 원장님</h3>
+                        <p class="text-sm lg:text-base text-gray-700 leading-relaxed font-light">
+                            강사와 학생을 철저하게 신경써주시는 원장님. <br>어딜 가도 이런 원장님은 없었음.
+                        </p>
+                    </div>
+
+                    <!-- 관리팀 -->
+                    <div class="aca-card bg-white/95 backdrop-blur-sm p-7 lg:p-8 rounded-2xl shadow-2xl border-t-4 border-[#CE4545]">
+                        <div class="flex items-center gap-4 mb-5">
+                            <img src="images/aca2.png" alt="관리팀" class="w-16 h-16 lg:w-20 lg:h-20 rounded-full object-cover ring-2 ring-[#CE4545]/40 bg-gray-100">
+                            <div>
+                                <div class="text-[10px] font-black tracking-[0.25em] text-[#CE4545] mb-1">OPERATIONS</div>
+                                <div class="text-xs text-gray-500 tracking-wider">관리팀</div>
+                            </div>
+                        </div>
+                        <h3 class="text-lg lg:text-xl font-black text-gray-900 mb-3 leading-tight">헌신의 관리팀</h3>
+                        <p class="text-sm lg:text-base text-gray-700 leading-relaxed font-light">
+                            야근까지 해가며 컴퓨터관리, 학생관리를 이렇게까지 해주는 곳은 본 적이 없음.
+                        </p>
+                    </div>
+
+                    <!-- 인포팀 -->
+                    <div class="aca-card bg-white/95 backdrop-blur-sm p-7 lg:p-8 rounded-2xl shadow-2xl border-t-4 border-[#CE4545]">
+                        <div class="flex items-center gap-4 mb-5">
+                            <img src="images/aca3.png" alt="인포팀" class="w-16 h-16 lg:w-20 lg:h-20 rounded-full object-cover ring-2 ring-[#CE4545]/40 bg-gray-100">
+                            <div>
+                                <div class="text-[10px] font-black tracking-[0.25em] text-[#CE4545] mb-1">RECRUITMENT</div>
+                                <div class="text-xs text-gray-500 tracking-wider">인포팀</div>
+                            </div>
+                        </div>
+                        <h3 class="text-lg lg:text-xl font-black text-gray-900 mb-3 leading-tight">모집된 학생을 신경써주는 인포팀</h3>
+                        <p class="text-sm lg:text-base text-gray-700 leading-relaxed font-light">
+                            학생모집으로 끝나지 않고 강사한테 신경 잘 써달라고 부탁하는 인포는 본 적이 없었음.
+                        </p>
+                    </div>
+
+                    <!-- 취업지원팀 -->
+                    <div class="aca-card bg-white/95 backdrop-blur-sm p-7 lg:p-8 rounded-2xl shadow-2xl border-t-4 border-[#CE4545]">
+                        <div class="flex items-center gap-4 mb-5">
+                            <img src="images/aca4.png" alt="취업지원팀" class="w-16 h-16 lg:w-20 lg:h-20 rounded-full object-cover ring-2 ring-[#CE4545]/40 bg-gray-100">
+                            <div>
+                                <div class="text-[10px] font-black tracking-[0.25em] text-[#CE4545] mb-1">CAREER</div>
+                                <div class="text-xs text-gray-500 tracking-wider">취업지원팀 · 김현정쌤</div>
+                            </div>
+                        </div>
+                        <h3 class="text-lg lg:text-xl font-black text-gray-900 mb-3 leading-tight">태권도 유단자 취업지원팀</h3>
+                        <p class="text-sm lg:text-base text-gray-700 leading-relaxed font-light">
+                            열정의 팀으로 학생·강사와 전국 유일하게 소통하는 취업지원팀. 절대 다른 어느 학원에서도 볼 수 없는 취업지원 김현정쌤.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ==================== SECTION 6 (NEW: 연락처 + 문의 폼) ==================== -->
     <section id="section6" class="relative w-full min-h-screen bg-[#111111] text-white border-t border-gray-800 py-24 lg:py-32 overflow-hidden">
         <div class="max-w-[1600px] mx-auto px-6 lg:px-12">
@@ -470,7 +792,7 @@
             <!-- 헤더 -->
             <div class="mb-16 lg:mb-24">
                 <span class="inline-block w-12 h-[6px] bg-[#CE4545] mb-6"></span>
-                <h2 class="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.0]">Contact.</h2>
+                <h2 class="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter" style="line-height: 1.1;">Contact.</h2>
                 <p class="text-gray-400 text-lg lg:text-xl mt-6 font-light">함께 즐겁게 배우실 분, 언제든 연락주세요.</p>
             </div>
 
@@ -656,31 +978,31 @@
             const pfGrid = document.getElementById('portfolio-grid');
             // merong.co.kr 실제 학생 포트폴리오 데이터 (2026.05 크롤링)
             const portfolioItems = [
-                { batch: 16, title: '웹 포트폴리오', student: '이혜지', url: 'https://1215kkm.github.io/16_leehyeji2/', thumb: 'images/portfolio/1116.jpg' },
-                { batch: 16, title: '웹 포트폴리오', student: '강승연', url: 'https://1215kkm.github.io/16_kangseungyeun/', thumb: 'images/portfolio/1114.jpg' },
-                { batch: 16, title: '웹 포트폴리오', student: '김동휘', url: 'https://1215kkm.github.io/16_donghee/', thumb: 'images/portfolio/1112.jpg' },
-                { batch: 16, title: '웹 포트폴리오 (반장)', student: '정해진', url: 'https://1215kkm.github.io/16_junghyejin/', thumb: 'images/portfolio/1105.jpg' },
-                { batch: 16, title: '수영 테마 포트폴리오', student: '김유진', url: 'https://1215kkm.github.io/16_kimyujin_swim/', thumb: 'images/portfolio/1100.jpg' },
-                { batch: 16, title: '다람쥐 테마 포트폴리오', student: '이혜지', url: 'https://1215kkm.github.io/16_leehyeji_daramji/scene12.html', thumb: 'images/portfolio/1098.jpg' },
-                { batch: 16, title: '웹 포트폴리오', student: '나세희', url: 'https://1215kkm.github.io/16_nasehee/', thumb: 'images/portfolio/1090.jpg' },
-                { batch: 15, title: 'Figma 프로토타입', student: '김도희', url: 'https://www.figma.com/proto/WjhcHtbtBksI', thumb: 'images/portfolio/699.jpg' },
-                { batch: 13, title: '웹 포트폴리오', student: '이유주', url: 'https://1215kkm.github.io/13_leeyuju/', thumb: 'images/portfolio/655.jpg' },
-                { batch: 13, title: '웹 포트폴리오', student: '이인혜', url: 'https://1215kkm.github.io/13_leeinhye/', thumb: 'images/portfolio/652.jpg' },
-                { batch: 13, title: '웹 포트폴리오', student: '이혜림', url: 'https://1215kkm.github.io/13_leehyelim', thumb: 'images/portfolio/641.jpg' },
-                { batch: 13, title: '웹 포트폴리오', student: '김수인', url: 'https://1215kkm.github.io/13_kimsuin/', thumb: 'images/portfolio/591.jpg' },
-                { batch: 13, title: '웹 포트폴리오', student: '박소영', url: 'http://1215kkm.github.io/13_parksoyoung', thumb: 'images/portfolio/594.jpg' },
-                { batch: 12, title: '웹 포트폴리오', student: '이다슬', url: 'https://1215kkm.github.io/12_daseul.github.io/', thumb: 'images/portfolio/675.jpg' },
-                { batch: 12, title: '웹 포트폴리오', student: '이다은', url: 'https://1215kkm.github.io/12_leedaeun/', thumb: 'images/portfolio/664.jpg' },
-                { batch: 12, title: '웹 포트폴리오', student: '조은비', url: 'https://1215kkm.github.io/13_joeunbi/', thumb: 'images/portfolio/649.jpg' },
-                { batch: 12, title: '웹 포트폴리오', student: '최여진', url: 'https://1215kkm.github.io/12_choiyeojin.github.io/', thumb: 'images/portfolio/646.jpg' },
-                { batch: 12, title: '웹 포트폴리오', student: '정윤미', url: 'http://1215kkm.github.io/12_jeongyunmi/', thumb: 'images/portfolio/597.jpg' },
-                { batch: 9,  title: '웹 포트폴리오', student: '전지우', url: 'https://1215kkm.github.io/9_jeonjiwoo.github.io/', thumb: 'images/portfolio/600.jpg' },
-                { batch: 8,  title: '웹 포트폴리오', student: '김은지', url: 'https://1215kkm.github.io/8_eunji.github.io/01MAIN.html', thumb: 'images/portfolio/690.jpg' },
-                { batch: 8,  title: '웹 포트폴리오', student: '이예나', url: 'https://1215kkm.github.io/8_yena.github.io/1main.html', thumb: 'images/portfolio/661.jpg' },
-                { batch: 4,  title: '웹 포트폴리오', student: '이경진', url: 'https://1215kkm.github.io/4_gyungjin.github.io/', thumb: 'images/portfolio/681.jpg' },
-                { batch: 2,  title: '웹 포트폴리오', student: '이나라', url: 'https://1215kkm.github.io/2_nara/', thumb: 'images/portfolio/678.jpg' },
-                { batch: 2,  title: '웹 포트폴리오', student: '이혜림', url: '', thumb: 'images/portfolio/644.jpg' },
-                { batch: 1,  title: '웹 포트폴리오', student: '염정선', url: 'https://1215kkm.github.io/1_jungsun.github.io/', thumb: 'images/portfolio/684.jpg' }
+                { batch: 16, title: '웹 포트폴리오', student: '이혜지', url: 'https://1215kkm.github.io/16_leehyeji2/', thumb: 'images/portfolio/1116.jpg', review: '디테일에 진심인 친구. 끝까지 퀄리티를 끌어올리는 끈기가 정말 멋졌어요.' },
+                { batch: 16, title: '웹 포트폴리오', student: '강승연', url: 'https://1215kkm.github.io/16_kangseungyeun/', thumb: 'images/portfolio/1114.jpg', review: '색감과 레이아웃 감각이 남다른 친구. 디자인 센스가 반에서 손꼽혔어요.' },
+                { batch: 16, title: '웹 포트폴리오', student: '김동휘', url: 'https://1215kkm.github.io/16_donghee/', thumb: 'images/portfolio/1112.jpg', review: '코드 구조가 깔끔한 친구. 차분하게 끝까지 마무리하는 스타일이 인상적이었어요.' },
+                { batch: 16, title: '웹 포트폴리오 (반장)', student: '정해진', url: 'https://1215kkm.github.io/16_junghyejin/', thumb: 'images/portfolio/1105.jpg', review: '반장답게 책임감이 강하고 팀원들 잘 챙기는 든든한 친구. 작업물도 야무져요.' },
+                { batch: 16, title: '수영 테마 포트폴리오', student: '김유진', url: 'https://1215kkm.github.io/16_kimyujin_swim/', thumb: 'images/portfolio/1100.jpg', review: '본인만의 컨셉을 끝까지 밀어붙이는 추진력이 일품. 수영 테마 진짜 좋았어요.' },
+                { batch: 16, title: '다람쥐 테마 포트폴리오', student: '이혜지', url: 'https://1215kkm.github.io/16_leehyeji_daramji/scene12.html', thumb: 'images/portfolio/1098.jpg', review: '두 번째 포폴까지 만든 열정맨. 아이디어를 시각화하는 감각이 뛰어났어요.' },
+                { batch: 16, title: '웹 포트폴리오', student: '나세희', url: 'https://1215kkm.github.io/16_nasehee/', thumb: 'images/portfolio/1090.jpg', review: '꾸준함의 모범. 매일 조금씩 성장하는 모습이 인상 깊었던 친구.' },
+                { batch: 15, title: 'Figma 프로토타입', student: '김도희', url: 'https://www.figma.com/proto/WjhcHtbtBksI', thumb: 'images/portfolio/699.jpg', review: 'Figma 다루는 손이 빠른 친구. 프로토타이핑을 진짜로 즐겼어요.' },
+                { batch: 13, title: '웹 포트폴리오', student: '이유주', url: 'https://1215kkm.github.io/13_leeyuju/', thumb: 'images/portfolio/655.jpg', review: '트렌드를 빠르게 캐치하는 감각형 디자이너. 결과물에 세련됨이 묻어났어요.' },
+                { batch: 13, title: '웹 포트폴리오', student: '이인혜', url: 'https://1215kkm.github.io/13_leeinhye/', thumb: 'images/portfolio/652.jpg', review: '꼼꼼함의 대명사. 디테일을 놓치지 않아 작업물 완성도가 높았어요.' },
+                { batch: 13, title: '웹 포트폴리오', student: '이혜림', url: 'https://1215kkm.github.io/13_leehyelim', thumb: 'images/portfolio/641.jpg', review: '감성적인 디자인이 강점. 사용자 마음을 잘 읽는 친구였어요.' },
+                { batch: 13, title: '웹 포트폴리오', student: '김수인', url: 'https://1215kkm.github.io/13_kimsuin/', thumb: 'images/portfolio/591.jpg', review: '깔끔한 코드, 깔끔한 디자인. 모범생 그 자체였던 친구.' },
+                { batch: 13, title: '웹 포트폴리오', student: '박소영', url: 'http://1215kkm.github.io/13_parksoyoung', thumb: 'images/portfolio/594.jpg', review: '아이디어가 톡톡 튀는 친구. 회의 시간이 늘 즐거웠어요.' },
+                { batch: 12, title: '웹 포트폴리오', student: '이다슬', url: 'https://1215kkm.github.io/12_daseul.github.io/', thumb: 'images/portfolio/675.jpg', review: '센스있는 인터랙션 구현이 일품. 디테일에 강한 친구.' },
+                { batch: 12, title: '웹 포트폴리오', student: '이다은', url: 'https://1215kkm.github.io/12_leedaeun/', thumb: 'images/portfolio/664.jpg', review: '안정적인 결과물을 뽑아내는 친구. 믿고 맡길 수 있는 든든함이 있어요.' },
+                { batch: 12, title: '웹 포트폴리오', student: '조은비', url: 'https://1215kkm.github.io/13_joeunbi/', thumb: 'images/portfolio/649.jpg', review: '밝은 에너지로 반 분위기를 살린 친구. 작업도 시원시원했어요.' },
+                { batch: 12, title: '웹 포트폴리오', student: '최여진', url: 'https://1215kkm.github.io/12_choiyeojin.github.io/', thumb: 'images/portfolio/646.jpg', review: '꾸준한 노력파. 매일 조금씩 발전하는 모습이 보였어요.' },
+                { batch: 12, title: '웹 포트폴리오', student: '정윤미', url: 'http://1215kkm.github.io/12_jeongyunmi/', thumb: 'images/portfolio/597.jpg', review: '디자인 감각이 뛰어난 친구. 본인 스타일이 분명해서 보기 좋았어요.' },
+                { batch: 9,  title: '웹 포트폴리오', student: '전지우', url: 'https://1215kkm.github.io/9_jeonjiwoo.github.io/', thumb: 'images/portfolio/600.jpg', review: '문제 해결력이 좋은 친구. 막힐 때 돌파구를 잘 찾아냈어요.' },
+                { batch: 8,  title: '웹 포트폴리오', student: '김은지', url: 'https://1215kkm.github.io/8_eunji.github.io/01MAIN.html', thumb: 'images/portfolio/690.jpg', review: '클래식한 감각의 디자이너. 기본기가 정말 탄탄했던 친구.' },
+                { batch: 8,  title: '웹 포트폴리오', student: '이예나', url: 'https://1215kkm.github.io/8_yena.github.io/1main.html', thumb: 'images/portfolio/661.jpg', review: '도전 정신이 강한 친구. 새로운 시도를 두려워하지 않았어요.' },
+                { batch: 4,  title: '웹 포트폴리오', student: '이경진', url: 'https://1215kkm.github.io/4_gyungjin.github.io/', thumb: 'images/portfolio/681.jpg', review: '오랜 기간 기억에 남는 친구. 작업물에 진심이 묻어났어요.' },
+                { batch: 2,  title: '웹 포트폴리오', student: '이나라', url: 'https://1215kkm.github.io/2_nara/', thumb: 'images/portfolio/678.jpg', review: '초창기 멤버. 끈기와 열정으로 끝까지 마무리한 든든한 친구.' },
+                { batch: 2,  title: '웹 포트폴리오', student: '이혜림', url: '', thumb: 'images/portfolio/644.jpg', review: '조용하지만 결과물이 묵직했던 친구. 차분한 집중력이 인상적.' },
+                { batch: 1,  title: '웹 포트폴리오', student: '염정선', url: 'https://1215kkm.github.io/1_jungsun.github.io/', thumb: 'images/portfolio/684.jpg', review: '1기의 자존심. 시작을 함께한 잊지 못할 친구. 정말 고마웠어요.' }
             ];
             const batchNumbers = [...new Set(portfolioItems.map(item => item.batch))];
             const batchMap = new Map();
@@ -709,7 +1031,11 @@
                 const thumbContent = item.thumb
                     ? `<img src="${item.thumb}" alt="${item.student} 포트폴리오" loading="lazy" class="absolute inset-0 w-full h-full object-cover" onerror="this.style.display='none'">`
                     : `<span class="text-8xl font-black text-white/30 mix-blend-overlay">${String(index + 1).padStart(2, '0')}</span>`;
+                const tooltipHtml = item.review
+                    ? `<div class="pf-tooltip">${item.review}</div>`
+                    : '';
                 div.innerHTML = `
+                    ${tooltipHtml}
                     ${openTag}
                     <div class="aspect-[4/5] w-full ${item.thumb ? 'bg-gray-200' : bgClass} rounded-sm overflow-hidden shadow-md relative transition-transform duration-500 group-hover:-translate-y-2 group-hover:shadow-2xl flex items-center justify-center">
                         ${thumbContent}
@@ -887,28 +1213,36 @@
                 });
 
                 // [Phase 2] 섹션2 중간 → 섹션3 "학생" 글자 바로 위 (축소되며 이동)
-                // ★ immediateRender: false 가 핵심
-                //   → 트윈 생성 시점(페이지 로드)에 from-state를 캡처하지 않고,
-                //     스크롤이 start 트리거에 처음 도달한 순간의 현재 상태(=Phase1 끝 상태)
-                //     를 from으로 잡아서 부드럽게 이어집니다.
+                // ★ anchor(xPercent/yPercent)를 Phase1과 동일하게 -50/-50 으로 유지하여
+                //    트윈 사이에서 좌표계 점프 없이 이어지도록 함
+                //   → 좌표값은 "이미지 중앙" 기준으로 계산
+                //   → 이미지 크기 180x225 이므로 좌상단 (calc(23%+65px), 8vh) 에 두려면
+                //      중앙은 (calc(23%+65px+90px)=calc(23%+155px), calc(8vh+112.5px))
                 gsap.to("#hero-image", {
                     scrollTrigger: {
                         trigger: "#section3",
                         start: "top bottom",      // 섹션3가 viewport 하단에 닿을 때 시작
-                        end: "top top",           // 섹션3 상단이 viewport 상단에 닿을 때 종료(여기서 끝!)
+                        end: "top top",           // 섹션3 상단이 viewport 상단에 닿을 때 종료
                         scrub: 1,
                     },
-                    immediateRender: false,       // ★ Phase1의 끝 상태에서 자연스럽게 이어받기
-                    top: "8vh",                   // "학생" 글자 위쪽 여백
-                    left: "23%",                  // "학생" 글자가 위치한 가로 영역
-                    xPercent: 0,
-                    yPercent: 0,
+                    immediateRender: false,       // Phase1의 끝 상태에서 이어받기
+                    // 사이즈 원복: 180x225 (4:5)
+                    //   좌상단(23%+70px, 8vh+5px) + (width/2=90, height/2=112.5) = 중앙
+                    top: "calc(8vh + 117.5px)",   // 이미지 중앙 세로
+                    left: "calc(23% + 160px)",    // 이미지 중앙 가로
+                    xPercent: -50,
+                    yPercent: -50,
                     width: "180px",
                     height: "225px",
                     ease: "power2.inOut"
                 });
 
                 // [Phase 3] 섹션3 → 섹션4: 이미지가 섹션4 제목 우측으로 이동
+                // anchor 동일 (-50/-50), 좌표는 이미지 중앙 기준
+                //   원래 의도: 가로 중앙 82%, 세로 상단 18vh 에서 좌측 65/위 45 이동, 추가로 위 30 더 이동
+                //   → 가로 중앙: 82% - 65px (변화 없음)
+                //   → 세로 상단: 18vh - 45px - 30px = 18vh - 75px
+                //   → 세로 중앙: (18vh - 75px) + height/2(100px) = 18vh + 25px
                 gsap.to("#hero-image", {
                     scrollTrigger: {
                         trigger: "#section4",
@@ -917,12 +1251,12 @@
                         scrub: 1,
                     },
                     immediateRender: false,       // Phase2의 끝 상태에서 이어받기
-                    top: "18vh",                  // 섹션4 제목 영역 높이
-                    left: "82%",                  // 우측 컬럼 제목 우측 자리
+                    top: "calc(18vh + 25px)",     // 위로 추가 30px 이동된 세로 중앙
+                    left: "calc(82% - 65px)",     // 좌측 65px 이동된 가로 중앙
                     xPercent: -50,
-                    yPercent: 0,
-                    width: "160px",
-                    height: "200px",
+                    yPercent: -50,
+                    width: "120px",               // 폭 120 (4:5 비율로 height 150)
+                    height: "150px",
                     ease: "power2.inOut"
                 });
 
@@ -941,51 +1275,9 @@
             });
 
             // ----- 모바일 (<768px) -----
-            mm.add("(max-width: 767px)", () => {
-                gsap.to("#hero-image", {
-                    scrollTrigger: {
-                        trigger: "#section2",
-                        start: "top bottom",
-                        end: "center center",
-                        scrub: 1,
-                    },
-                    top: "50vh",
-                    left: "50%",
-                    xPercent: -50,
-                    yPercent: -50,
-                    width: "70vw",
-                    height: "45vh",
-                    ease: "power1.inOut"
-                });
-
-                gsap.to("#hero-image", {
-                    scrollTrigger: {
-                        trigger: "#section3",
-                        start: "top bottom",
-                        end: "top center",
-                        scrub: 1,
-                    },
-                    immediateRender: false,       // ★ 이어받기
-                    top: "5vh",
-                    left: "50%",
-                    xPercent: -50,
-                    yPercent: 0,
-                    width: "120px",
-                    height: "150px",
-                    ease: "power1.inOut"
-                });
-
-                gsap.to("#hero-image", {
-                    scrollTrigger: {
-                        trigger: "#section5",
-                        start: "top bottom",
-                        end: "top 70%",
-                        scrub: 1,
-                    },
-                    immediateRender: false,       // ★ 이어받기
-                    opacity: 0
-                });
-            });
+            // 모바일에서는 fixed hero-image 를 CSS 로 display:none 처리하고,
+            // 각 섹션(섹션1=km1, 섹션3=km4) 안에 .km-mobile inline 이미지로 고정 표시.
+            // 별도 GSAP 트윈 없음.
 
             // ==========================================
             // ★ 섹션 전환 시 강사 이미지 교체 (km1 → km2 → km3 → km4)
@@ -1056,10 +1348,11 @@
                 onLeaveBack: () => swapHeroImage(2)
             });
 
-            // [3→4] 섹션2 중앙 통과 → km4
+            // [3→4] 섹션3가 화면에서 2/3 정도 보일 때 → km4
+            // (섹션3 상단이 viewport 상단으로부터 33% 지점에 도달 = 섹션3가 화면의 2/3 이상 보임)
             ScrollTrigger.create({
-                trigger: '#section2',
-                start: 'center center',
+                trigger: '#section3',
+                start: 'top 33%',
                 onEnter:     () => swapHeroImage(4),
                 onLeaveBack: () => swapHeroImage(3)
             });
@@ -1067,11 +1360,12 @@
             // 섹션3(학생 포트폴리오) 영역에서는 km4 유지 (섹션2 중앙에서 set된 상태 그대로)
             // → 별도 트리거 없음
 
-            // [6→7] 섹션4 진입 → km7 (역방향이면 섹션3 영역의 km4로 복귀)
+            // [4→5] 섹션4가 화면에서 2/3 정도 보일 때 → km5
+            // (섹션4 상단이 viewport 33% 지점 = 섹션4가 화면의 2/3 이상 보임)
             ScrollTrigger.create({
                 trigger: '#section4',
-                start: 'top 30%',
-                onEnter:     () => swapHeroImage(7),
+                start: 'top 33%',
+                onEnter:     () => swapHeroImage(5),
                 onLeaveBack: () => swapHeroImage(4)
             });
 
@@ -1093,6 +1387,18 @@
                 scrollTrigger: { trigger: "#section2", start: "top 60%" },
                 x: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power3.out"
             });
+
+            // 섹션3 다크 → 라이트 전환 (3/4 보이면 흰색으로)
+            const section3El = document.getElementById('section3');
+            if (section3El) {
+                section3El.classList.add('is-dark');
+                ScrollTrigger.create({
+                    trigger: '#section3',
+                    start: 'top 25%',                       // 섹션3 상단이 viewport 25%에 도달 = 화면의 3/4 보임
+                    onEnter:     () => section3El.classList.remove('is-dark'),
+                    onLeaveBack: () => section3El.classList.add('is-dark')
+                });
+            }
 
             // 섹션3 기수 메뉴 동기화
             const batchWrap = document.getElementById('batch-menu-wrap');
@@ -1119,6 +1425,7 @@
                     y: 50, opacity: 0, duration: 0.6, ease: "power2.out"
                 });
             });
+
 
 
             // ==========================================
@@ -1240,22 +1547,117 @@
 
 
             // ==========================================
-            // ★ 섹션4 - 우리반의 특별함 (후기 4개, 1초 간격 등장)
+            // ★ 섹션4 - 후기 4개 스크롤 연동 타이핑 효과
+            // 스크롤 내리는 만큼 한 기수씩 차례로 타이핑되고,
+            // 한 기수가 다 끝나면 다음 기수가 다시 스크롤에 맞춰 타이핑.
             // ==========================================
-            gsap.set('.testimonial-item', { opacity: 0, y: 60 });
-
-            gsap.to('.testimonial-item', {
-                scrollTrigger: {
-                    trigger: '#section4',
-                    start: 'top 65%',
-                    toggleActions: 'play none none none'   // 한 번만 재생
-                },
-                opacity: 1,
-                y: 0,
-                duration: 1.0,
-                stagger: 1.0,                              // ★ 1초 간격
-                ease: 'power3.out'
+            const testimonialItems = document.querySelectorAll('#section4 .testimonial-item');
+            const testimonialTexts = [];
+            testimonialItems.forEach((item) => {
+                const p = item.querySelector('p');
+                testimonialTexts.push(p.textContent.trim());
+                // 초기 상태: 텍스트 비우고 카드는 안 보이게
+                p.textContent = '';
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                item.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
             });
+
+            if (testimonialItems.length > 0) {
+                ScrollTrigger.create({
+                    trigger: '#section4',
+                    start: 'top top',
+                    end: 'bottom bottom',
+                    scrub: true,
+                    onUpdate: (self) => {
+                        const total = self.progress;
+                        const n = testimonialItems.length;
+                        const slice = 1 / n;
+                        testimonialItems.forEach((item, i) => {
+                            const startP = i * slice;
+                            const endP = (i + 1) * slice;
+                            const p = item.querySelector('p');
+                            const full = testimonialTexts[i];
+
+                            if (total < startP) {
+                                item.style.opacity = '0';
+                                item.style.transform = 'translateY(20px)';
+                                p.textContent = '';
+                            } else {
+                                item.style.opacity = '1';
+                                item.style.transform = 'translateY(0)';
+                                let local;
+                                if (total >= endP) local = 1;
+                                else local = (total - startP) / slice;
+                                const chars = Math.max(0, Math.floor(full.length * local));
+                                p.textContent = full.slice(0, chars);
+                            }
+                        });
+                    }
+                });
+            }
+
+
+            // ==========================================
+            // ★ 섹션5 (HRD Review) km 이미지 화면 밖 좌측 → 현재 위치로 부드럽게 진입
+            // ==========================================
+            const sec5Km = document.getElementById('sec5-km');
+            if (sec5Km) {
+                gsap.from(sec5Km, {
+                    scrollTrigger: {
+                        trigger: '#section5',
+                        start: 'top 80%',                  // 섹션5에 거의 도착할 때 시작
+                        toggleActions: 'play none none reverse'
+                    },
+                    x: '-110vw',
+                    opacity: 0,
+                    duration: 1.3,
+                    ease: 'power3.out'
+                });
+            }
+
+            // ==========================================
+            // ★ 새 섹션 (academy) - 섹션 도착 시 화면 고정(pin) → 스크롤하는 만큼
+            //    팀 카드 한 장씩 차례로 등장 → 4개 다 등장하면 핀 해제, 다음 섹션 진행
+            //    + 배경 이미지는 핀 구간 내내 함께 점점 확대됨
+            // ==========================================
+            const acaCards = document.querySelectorAll('#section-academy .aca-card');
+            const acaBg = document.getElementById('academy-bg');
+
+            if (acaCards.length) {
+                gsap.set(acaCards, { opacity: 0, y: 80 });
+
+                const acaTl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: '#section-academy',
+                        start: 'top top',                  // 섹션 상단이 viewport 상단에 도달 = 핀 시작
+                        end: '+=2400',                     // 카드 4개분의 스크롤 길이
+                        pin: true,
+                        scrub: 1,
+                        anticipatePin: 1,
+                        invalidateOnRefresh: true
+                    }
+                });
+
+                // 카드 4장 순차 등장 (각 1초 분량)
+                acaCards.forEach((card) => {
+                    acaTl.to(card, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        ease: 'power2.out'
+                    });
+                });
+
+                // 배경은 핀 구간 전체에 걸쳐 점점 확대 (timeline 0 시점부터 동시에)
+                if (acaBg) {
+                    acaTl.to(acaBg, {
+                        scale: 1.35,
+                        duration: acaCards.length,         // 카드 등장 시간 총합과 동일하게
+                        ease: 'none'
+                    }, 0);
+                }
+            }
 
 
             // ==========================================
