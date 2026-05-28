@@ -68,35 +68,7 @@
 
         .pf-item:nth-child(even) { margin-top: 8rem; }
 
-        /* 섹션3 다크 → 라이트 전환 (초기 검정, 화면 1/2 보이면 흰색) */
-        #section3 {
-            transition: background-color 0.6s ease;
-        }
-        #section3 .bg-\[\#f8f9fa\],
-        #section3 .bg-white {
-            transition: background-color 0.6s ease;
-        }
-        #section3 .text-gray-900,
-        #section3 .text-gray-500,
-        #section3 .text-gray-400,
-        #section3 .text-gray-300,
-        #section3 .text-blue-600 {
-            transition: color 0.6s ease;
-        }
-        #section3 .border-gray-900,
-        #section3 .border-gray-200 {
-            transition: border-color 0.6s ease;
-        }
-        #section3.is-dark { background-color: #CE4545 !important; }
-        #section3.is-dark .bg-\[\#f8f9fa\] { background-color: #CE4545 !important; }
-        #section3.is-dark .bg-white { background-color: #b83a3a !important; }
-        #section3.is-dark .text-gray-900 { color: #ffffff !important; }
-        #section3.is-dark .text-gray-500 { color: #ffe1e1 !important; }
-        #section3.is-dark .text-gray-400 { color: #ffcdcd !important; }
-        #section3.is-dark .text-gray-300 { color: #ffb1b1 !important; }
-        #section3.is-dark .text-blue-600 { color: #fff39e !important; }
-        #section3.is-dark .border-gray-900 { border-color: #ffffff !important; }
-        #section3.is-dark .border-gray-200 { border-color: #a82e2e !important; }
+        /* 섹션3 - 다크 전환 제거, 흰색 고정 */
 
         /* 학생 포폴 호버 - 강사 평가 말풍선 (썸네일 좌측 표시) */
         .pf-item { position: relative; }
@@ -265,6 +237,7 @@
             line-height: 1.2;
             letter-spacing: -0.02em;
         }
+        .s1-text-main .big {font-size: 100px;}
 
         /* 서브 텍스트 (메인 아래 들여쓰기) */
         .s1-text-sub {
@@ -381,6 +354,142 @@
         .photo-slot .corner-tr { top: 8px; right: 8px; width: 14px; height: 14px; border-top: 2px solid #9ca3af; border-right: 2px solid #9ca3af; }
         .photo-slot .corner-bl { bottom: 8px; left: 8px; width: 14px; height: 14px; border-bottom: 2px solid #9ca3af; border-left: 2px solid #9ca3af; }
         .photo-slot .corner-br { bottom: 8px; right: 8px; width: 14px; height: 14px; border-bottom: 2px solid #9ca3af; border-right: 2px solid #9ca3af; }
+
+        /* ============================================
+           섹션7 - 배경 어두워지면서 km8.jpg 우측정렬 깔림
+           ============================================ */
+        #section7 {
+            transition: background-color 0.9s ease;
+            position: relative;
+        }
+        #section7-bg-img {
+            position: absolute;
+            inset: 0;
+            background-image: url('images/km8.jpg');
+            background-size: cover;
+            background-position: right center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 0.9s ease;
+            z-index: 0;
+            pointer-events: none;
+        }
+        #section7.is-dark { background-color: #0a0a0a !important; }
+        #section7.is-dark #section7-bg-img { opacity: 0.45; }
+        #section7 > div:not(#section7-bg-img) { position: relative; z-index: 1; }
+
+        /* 섹션7 카드 색상 플래시용 트랜지션 (GSAP가 backgroundColor 를 다룰 때 부드럽게) */
+        #section7 .curri-card {
+            will-change: background-color, transform, opacity;
+        }
+
+        /* ============================================
+           섹션8 - 좌측 km9.png + 둥둥 떠다니는 말풍선 4개
+           ============================================ */
+        .sec8-left .km9-wrap {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 640px;
+        }
+        .sec8-left .km9-img {
+            max-height: 630px;
+            width: auto;
+            display: block;
+            mix-blend-mode: multiply;
+        }
+        .speech-bubble {
+            position: absolute;
+            background: #ffffff;
+            border: 2px solid #CE4545;
+            border-radius: 18px;
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #1f2937;
+            box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+            max-width: 200px;
+            line-height: 1.4;
+            z-index: 5;
+            animation: floatBubble 3.6s ease-in-out infinite;
+            word-break: keep-all;
+        }
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            width: 0; height: 0;
+            border: 8px solid transparent;
+        }
+        .speech-bubble.sb-tl { top: 0; left: -4%; animation-delay: 0s; }
+        .speech-bubble.sb-tr { top: 6%; right: -4%; animation-delay: 0.9s; }
+        .speech-bubble.sb-bl { bottom: 12%; left: -4%; animation-delay: 1.8s; }
+        .speech-bubble.sb-br { bottom: 4%; right: -4%; animation-delay: 2.7s; }
+        .speech-bubble.sb-tl::after { bottom: -16px; right: 30px; border-top-color: #CE4545; }
+        .speech-bubble.sb-tr::after { bottom: -16px; left: 30px; border-top-color: #CE4545; }
+        .speech-bubble.sb-bl::after { top: -16px; right: 30px; border-bottom-color: #CE4545; }
+        .speech-bubble.sb-br::after { top: -16px; left: 30px; border-bottom-color: #CE4545; }
+        @keyframes floatBubble {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-12px); }
+        }
+        @media (max-width: 767px) {
+            .speech-bubble { font-size: 11px; max-width: 140px; padding: 8px 12px; }
+            .sec8-left .km9-wrap { min-height: 420px; }
+        }
+
+        /* ============================================
+           섹션9 - 은은한 km10 배경 + 모달
+           ============================================ */
+        #sec9-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('images/km10.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: 0;
+            pointer-events: none;
+        }
+        #sec9-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.88);
+            z-index: 60;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 4vw;
+        }
+        #sec9-modal.is-open {
+            display: flex;
+        }
+        #sec9-modal img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+            border-radius: 8px;
+        }
+
+        /* ============================================
+           섹션10 - 반딧불 (firefly)
+           ============================================ */
+        .firefly {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #fff5b8;
+            box-shadow:
+                0 0 8px 2px rgba(255, 240, 130, 0.85),
+                0 0 18px 6px rgba(255, 220, 100, 0.45),
+                0 0 36px 12px rgba(255, 200, 80, 0.18);
+            pointer-events: none;
+            z-index: 0;
+            will-change: transform, opacity;
+        }
     </style>
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -445,7 +554,7 @@
 
             <!-- 좌측 상단 -->
             <div class="s1-text-group lt">
-                <h2 class="s1-text-main">5년연속 전국 <br>HRD 디지털디자인 전국1위</h2>
+                <h2 class="s1-text-main">5년연속 전국 <br>HRD 디지털디자인 전국<span class="big">1</span>위</h2>
                 <p class="s1-text-sub">국비수업 통계사이트 직리니서처 </p>
             </div>
 
@@ -498,7 +607,7 @@
                 <span class="text-[10px] font-bold leading-tight text-center">PORT<br>FOLIO</span>
             </div>
             <div class="absolute right-0 top-0 bottom-0 w-[2px] bg-gray-200">
-                <div id="pf-progress" class="w-full bg-blue-600 rounded-none" style="height: 0%;"></div>
+                <div id="pf-progress" class="w-full bg-[#CE4545] rounded-none" style="height: 0%;"></div>
             </div>
             
             <div class="flex-1 overflow-hidden w-full px-8 text-center relative z-10" id="batch-menu-wrap">
@@ -513,7 +622,7 @@
             <!-- 모바일 전용 강사 이미지 -->
             <img src="images/km4.png" alt="강경모 강사" class="km-mobile">
             <div class="mb-4">
-                <span class="inline-block w-12 h-[6px] bg-blue-600 mb-6"></span>
+                <span class="inline-block w-12 h-[6px] bg-[#CE4545] mb-6"></span>
             </div>
             <h2 class="text-5xl lg:text-[5rem] font-black tracking-tighter mb-6 text-gray-900" style="line-height: 1.0;">
                 <span id="word-haksaeng">학생</span><br>포트폴리오<br>모음.
@@ -589,7 +698,7 @@
                                     </p>
                                 </div>
                                 <div class="testi-tooltip">
-                                    너희들 정말 가족 같았어. 인생쌤이라는 말 들으니 오히려 내가 더 고맙다. 평생 응원할게.
+                                    누군지 알지롱 ㅎㅎ 인생쌤이라는 말 들으니 오히려 내가 더 고맙네. 항상 응원할게!!! 
                                 </div>
                             </div>
 
@@ -605,7 +714,7 @@
                                     </p>
                                 </div>
                                 <div class="testi-tooltip">
-                                    수업 못 따라가도 끝까지 자리 지킨 게 진짜 실력이야. 그 끈기 잊지 마. 충분히 잘하고 있어.
+                                    수업 못 따라가도 끝까지 자리 지킨 게 진짜 실력이야. 그 끈기 잊지 마. 오래있는 놈이 강한거여
                                 </div>
                             </div>
 
@@ -621,7 +730,7 @@
                                     </p>
                                 </div>
                                 <div class="testi-tooltip">
-                                    강엄마 별명, 사실 너희들 덕분에 생긴 거야. 토스트는 다음 기수에도 계속 굽고 있을게. 보고 싶다.
+                                    강엄마 ㅎㅎ. 토스트는 다음 기수에도 계속 굽고 있을게. 진짜 느그들 덕분에 버텼다!
                                 </div>
                             </div>
 
@@ -637,7 +746,7 @@
                                     </p>
                                 </div>
                                 <div class="testi-tooltip">
-                                    잘 자야 잘 배운다. 매트리스는 다음 기수에도 깔아둘 테니까, 너희들은 가서 꿀잠 자고 잘 살자.
+                                    잘 자야 잘 배운다. 매트리스는 너희들 피드백을 받아 다음 기수에도 깔아둘 테니까, 너희들은 가서 꿀잠 자고 잘 살자.
                                 </div>
                             </div>
 
@@ -792,9 +901,9 @@
             <!-- 상단 라벨 -->
             <div class="flex items-center justify-between mb-10 lg:mb-16">
                 <div class="flex items-center gap-4">
-                    <div class="text-base lg:text-lg font-black text-gray-900">1</div>
-                    <div class="w-32 lg:w-72 h-px bg-gray-300"></div>
-                    <div class="text-xs lg:text-sm font-bold tracking-[0.25em] text-gray-700">Point</div>
+                    <!-- <div class="text-base lg:text-lg font-black text-gray-900">1</div> -->
+                    <!-- <div class="w-32 lg:w-72 h-px bg-gray-300"></div> -->
+                    <div class="text-xs lg:text-sm font-bold tracking-[0.25em] text-gray-700">Class Point</div>
                 </div>
                 <div class="hidden md:block text-[10px] lg:text-xs font-mono tracking-[0.35em] text-gray-400">UI UX DESIGN EDUCATION CLASS FLOW</div>
             </div>
@@ -818,8 +927,8 @@
                 </div>
 
                 <!-- 우측: 베이지 패널 + 강사 메시지 -->
-                <div class="lg:col-span-5 sec6-right">
-                    <div class="bg-[#cfc8b8] p-8 lg:p-12 rounded-2xl shadow-xl flex flex-col justify-between min-h-[480px] lg:min-h-[640px] relative overflow-hidden">
+                <div class="lg:col-span-5 sec6-right relative">
+                    <div class="sec6-panel bg-[#cfc8b8] p-8 lg:p-12 rounded-2xl shadow-xl flex flex-col justify-between min-h-[480px] lg:min-h-[640px] relative">
                         <div class="absolute top-6 right-6 text-[9px] lg:text-[10px] font-mono tracking-[0.3em] text-gray-700/70">TEACHER · K.K.M</div>
                         <h3 class="relative z-10 text-xl md:text-2xl lg:text-3xl font-black text-gray-900 leading-snug pt-6 lg:pt-10" style="line-height: 1.5;">
                             우리반은 놀듯이 수업하다보면<br>
@@ -835,6 +944,8 @@
                             </div>
                         </div>
                     </div>
+                    <!-- km7 이미지: 패널 우측에 5% 걸쳐서 들어옴 -->
+                    <img id="sec6-km7" src="images/km7.png" alt="강경모 강사" class="absolute pointer-events-none select-none" style="bottom: 0; right: -5%; max-height: 70%; width: auto; z-index: 10; mix-blend-mode: multiply;">
                 </div>
 
             </div>
@@ -842,30 +953,31 @@
     </section>
 
     <!-- ==================== SECTION 7 (NEW: 강의 전문분야 · Curriculum) ==================== -->
-    <section id="section7" class="relative w-full min-h-screen bg-[#fbf7f0] border-t border-gray-200 overflow-hidden">
+    <section id="section7" class="relative w-full min-h-screen bg-[#CE4545] border-t border-gray-200 overflow-hidden">
+        <div id="section7-bg-img"></div>
         <div class="relative max-w-[1600px] mx-auto px-6 lg:px-12 py-24 lg:py-32">
 
             <!-- 상단 라벨 -->
             <div class="flex items-center justify-between mb-10 lg:mb-16">
                 <div class="flex items-center gap-4">
-                    <div class="text-base lg:text-lg font-black text-gray-900">2</div>
-                    <div class="w-32 lg:w-72 h-px bg-gray-300"></div>
-                    <div class="text-xs lg:text-sm font-bold tracking-[0.25em] text-gray-700">Curriculum</div>
+                    <!-- <div class="text-base lg:text-lg font-black text-gray-900">2</div>
+                    <div class="w-32 lg:w-72 h-px bg-gray-300"></div> -->
+                    <div class="text-xs lg:text-sm font-bold tracking-[0.25em] text-white">Curriculum</div>
                 </div>
-                <div class="hidden md:block text-[10px] lg:text-xs font-mono tracking-[0.35em] text-gray-400">SUBJECT · TOOLS · WORKFLOW</div>
+                <div class="hidden md:block text-[10px] lg:text-xs font-mono tracking-[0.35em] text-white">SUBJECT · TOOLS · WORKFLOW</div>
             </div>
 
             <!-- 헤더 -->
             <div class="mb-14 lg:mb-20 sec7-head">
                 <span class="inline-block w-12 h-[6px] bg-[#CE4545] mb-6"></span>
-                <h2 class="text-3xl md:text-5xl lg:text-[3.6rem] font-black tracking-tighter text-gray-900" style="line-height: 1.2;">
+                <h2 class="text-3xl md:text-5xl lg:text-[3.6rem] font-black tracking-tighter text-white" style="line-height: 1.2;">
                     강의 전문분야.
                 </h2>
-                <p class="text-gray-500 text-base lg:text-lg mt-4 font-light">디자인부터 퍼블리싱까지 — 실무 기준으로 가르치는 범위</p>
+                <p class="text-white text-base lg:text-lg mt-4 font-light">디자인부터 퍼블리싱까지 — 실무 기준으로 가르치는 범위</p>
             </div>
 
-            <!-- 3컬럼: 디자인 / 퍼블리싱 / Workflow -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            <!-- 4컬럼: 디자인 / 퍼블리싱 / Workflow -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 lg:gap-8">
 
                 <!-- 디자인 -->
                 <div class="curri-card bg-white p-8 lg:p-10 rounded-2xl shadow-md border-t-4 border-[#CE4545] flex flex-col">
@@ -881,7 +993,7 @@
                         <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#CE4545]"></span>Figma (피그마)</li>
                         <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#CE4545]"></span>UI/UX 설계 · 와이어프레임</li>
                         <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#CE4545]"></span>웹·모바일 디자인 가이드</li>
-                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#CE4545]"></span>AI 활용 (미드저니 · GPT)</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#CE4545]"></span>AI 디자인 활용 (미드저니 · GPT · 제미나이 · 클로드)</li>
                     </ul>
                 </div>
 
@@ -899,26 +1011,46 @@
                         <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#CE4545]"></span>JavaScript 기본기</li>
                         <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#CE4545]"></span>jQuery · GSAP 애니메이션</li>
                         <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#CE4545]"></span>웹 표준 · 접근성</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#CE4545]"></span>크로스브라우징</li>
                         <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#CE4545]"></span>GitHub Pages 배포</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#CE4545]"></span>자격증 필요할경우 95% 합격률</li>
                     </ul>
+                </div>
+
+                <!-- cms -->
+                <div class="curri-card bg-white p-8 lg:p-10 rounded-2xl shadow-md border-t-4 border-[#CE4545] flex flex-col">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="text-[10px] font-black tracking-[0.3em] text-[#CE4545]">CMS</div>
+                        <div class="text-3xl lg:text-4xl font-black text-gray-200 leading-none">03</div>
+                    </div>
+                    <h3 class="text-xl lg:text-2xl font-black text-gray-900 mb-3 leading-tight">취업,프리랜서,창업</h3>
+                    <p class="text-sm text-gray-500 font-light mb-6">완전 처음부터 취업 및 창업까지</p>
+                    <ol class="space-y-2 text-sm lg:text-base text-gray-800 font-light">
+                        <li class="flex items-start gap-2"><span class="shrink-0 mt-1 w-5 text-[10px] font-black text-[#CE4545]">01</span><span>카페24 학습</span></li>
+                        <li class="flex items-start gap-2"><span class="shrink-0 mt-1 w-5 text-[10px] font-black text-[#CE4545]">02</span><span>아임웹 학습</span></li>
+                        <li class="flex items-start gap-2"><span class="shrink-0 mt-1 w-5 text-[10px] font-black text-[#CE4545]">04</span><span>워드프레스 경험</span></li>
+                        <li class="flex items-start gap-2"><span class="shrink-0 mt-1 w-5 text-[10px] font-black text-[#CE4545]">05</span><span>Ai 전문가 되서 하고싶은거 다하기</span></li>
+                        <li class="flex items-start gap-2"><span class="shrink-0 mt-1 w-5 text-[10px] font-black text-[#CE4545]">06</span><span>시장조사 부터 디자인 제작 홍보까지</span></li>
+                        <li class="flex items-start gap-2"><span class="shrink-0 mt-1 w-5 text-[10px] font-black text-[#CE4545]">07</span><span>청년창업지원 노하우 전수</span></li>
+                    </ol>
                 </div>
 
                 <!-- Workflow -->
                 <div class="curri-card bg-white p-8 lg:p-10 rounded-2xl shadow-md border-t-4 border-[#CE4545] flex flex-col">
                     <div class="flex items-center justify-between mb-6">
                         <div class="text-[10px] font-black tracking-[0.3em] text-[#CE4545]">WORKFLOW</div>
-                        <div class="text-3xl lg:text-4xl font-black text-gray-200 leading-none">03</div>
+                        <div class="text-3xl lg:text-4xl font-black text-gray-200 leading-none">04</div>
                     </div>
-                    <h3 class="text-xl lg:text-2xl font-black text-gray-900 mb-3 leading-tight">Workflow</h3>
-                    <p class="text-sm text-gray-500 font-light mb-6">처음부터 취업까지 — 한 학기 동안 따라가는 수업 순서</p>
+                    <h3 class="text-xl lg:text-2xl font-black text-gray-900 mb-3 leading-tight">수업과정</h3>
+                    <p class="text-sm text-gray-500 font-light mb-6">같이 해나갈 수업과정</p>
                     <ol class="space-y-2 text-sm lg:text-base text-gray-800 font-light">
-                        <li class="flex items-start gap-2"><span class="shrink-0 mt-1 w-5 text-[10px] font-black text-[#CE4545]">01</span><span>기초 디자인 툴 (Photoshop · Illustrator)</span></li>
-                        <li class="flex items-start gap-2"><span class="shrink-0 mt-1 w-5 text-[10px] font-black text-[#CE4545]">02</span><span>UI/UX 이론 · 와이어프레임 실습</span></li>
-                        <li class="flex items-start gap-2"><span class="shrink-0 mt-1 w-5 text-[10px] font-black text-[#CE4545]">03</span><span>Figma 디자인 시스템 구축</span></li>
+                        <li class="flex items-start gap-2"><span class="shrink-0 mt-1 w-5 text-[10px] font-black text-[#CE4545]">01</span><span>디자인 쉽게 노하우 배우기</span></li>
+                        <li class="flex items-start gap-2"><span class="shrink-0 mt-1 w-5 text-[10px] font-black text-[#CE4545]">02</span><span>UI/UX Figma 디자인 실습</span></li>
                         <li class="flex items-start gap-2"><span class="shrink-0 mt-1 w-5 text-[10px] font-black text-[#CE4545]">04</span><span>HTML · CSS 퍼블리싱 기초</span></li>
-                        <li class="flex items-start gap-2"><span class="shrink-0 mt-1 w-5 text-[10px] font-black text-[#CE4545]">05</span><span>JS · GSAP 인터랙션 실습</span></li>
-                        <li class="flex items-start gap-2"><span class="shrink-0 mt-1 w-5 text-[10px] font-black text-[#CE4545]">06</span><span>실전 포트폴리오 1:1 제작</span></li>
-                        <li class="flex items-start gap-2"><span class="shrink-0 mt-1 w-5 text-[10px] font-black text-[#CE4545]">07</span><span>자격증 대비 · 취업 컨설팅</span></li>
+                        <li class="flex items-start gap-2"><span class="shrink-0 mt-1 w-5 text-[10px] font-black text-[#CE4545]">05</span><span>JS · JQUERY · GSAP 인터랙션 실습</span></li>
+                        <li class="flex items-start gap-2"><span class="shrink-0 mt-1 w-5 text-[10px] font-black text-[#CE4545]">06</span><span>팀별 포트폴리오 + 피드백 제작</span></li>
+                        <li class="flex items-start gap-2"><span class="shrink-0 mt-1 w-5 text-[10px] font-black text-[#CE4545]">07</span><span>실전 포트폴리오 + 1:1 제작</span></li>
+                        <li class="flex items-start gap-2"><span class="shrink-0 mt-1 w-5 text-[10px] font-black text-[#CE4545]">08</span><span>취업 · 프리랜서 · 창업 컨설팅</span></li>
                     </ol>
                 </div>
 
@@ -933,29 +1065,38 @@
             <!-- 상단 라벨 -->
             <div class="flex items-center justify-between mb-10 lg:mb-16">
                 <div class="flex items-center gap-4">
-                    <div class="text-base lg:text-lg font-black text-gray-900">3</div>
-                    <div class="w-32 lg:w-72 h-px bg-gray-400/60"></div>
-                    <div class="text-xs lg:text-sm font-bold tracking-[0.25em] text-gray-800">Point</div>
+                    <!-- <div class="text-base lg:text-lg font-black text-gray-900">3</div>
+                    <div class="w-32 lg:w-72 h-px bg-gray-400/60"></div> -->
+                    <div class="text-xs lg:text-sm font-bold tracking-[0.25em] text-gray-800">Class Point</div>
                 </div>
                 <div class="hidden md:block text-[10px] lg:text-xs font-mono tracking-[0.35em] text-gray-500">UI UX DESIGN EDUCATION</div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
 
-                <!-- 좌측: 큰 타이틀 -->
+                <!-- 좌측: km9.png + 둥둥 떠다니는 4개 말풍선 -->
                 <div class="lg:col-span-5 sec8-left">
-                    <h2 class="text-3xl md:text-5xl lg:text-[3.4rem] font-black tracking-tighter text-gray-900 mb-8" style="line-height: 1.25;">
+                    <div class="km9-wrap">
+                        <img src="images/km9.png" alt="강경모 강사" class="km9-img">
+                        <div class="speech-bubble sb-tl">제발 선한 반이 되게 해주세요 꼭이요~</div>
+                        <div class="speech-bubble sb-tr">부디 잘 놀고 열심히 하는 반이 되게 해주세요</div>
+                        <div class="speech-bubble sb-bl">삶을 배울 수 있는 반이 되게 해주세요</div>
+                        <div class="speech-bubble sb-br">도움을 하나라도 줄 수 있는 쌤이 되게 해주세요</div>
+                    </div>
+                </div>
+
+                <!-- 우측: 제목 + 본문 + 4개 아이콘 + 1:1 피드백 + 체크리스트 -->
+                <div class="lg:col-span-7 sec8-right">
+
+                    <!-- 좌측에서 옮겨온 큰 타이틀 -->
+                    <h2 class="text-3xl md:text-5xl lg:text-[3rem] font-black tracking-tighter text-gray-900 mb-6" style="line-height: 1.25;">
                         <span class="text-[#CE4545]">믿고</span> 배울 수 있는 강사.<br>
                         <span class="text-[#CE4545]">목표</span>가 분명한 수업.<br>
                         쉬운 <span class="text-[#CE4545]">복습</span> 시스템.
                     </h2>
-                    <p class="text-sm lg:text-base text-gray-700 font-light leading-relaxed mt-12 lg:mt-24 max-w-md">
+                    <p class="text-sm lg:text-base text-gray-700 font-light leading-relaxed mb-12 max-w-2xl">
                         현업 웹 에이전시를 운영하며 <b class="font-bold text-gray-900">실제 프로젝트 흐름</b>을 수업에 연결합니다.
                     </p>
-                </div>
-
-                <!-- 우측: 4개 아이콘 + 1:1 피드백 + 체크리스트 -->
-                <div class="lg:col-span-7 sec8-right">
 
                     <!-- 4개 아이콘 통계 -->
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-4 mb-12 lg:mb-16">
@@ -1005,76 +1146,109 @@
 
     <!-- ==================== SECTION 9 (NEW: 결과로 이어지는 수업 운영) ==================== -->
     <section id="section9" class="relative w-full min-h-screen bg-white border-t border-gray-200 overflow-hidden">
-        <div class="relative max-w-[1600px] mx-auto px-6 lg:px-12 py-24 lg:py-32">
+        <!-- 은은한 배경 이미지 -->
+        <div id="sec9-bg"></div>
+
+        <!-- 이미지 보기 버튼 (마우스 따라다니는 커서) -->
+        <button id="sec9-view-btn" type="button" aria-label="이미지 크게보기" class="fixed top-0 left-0 z-50 w-14 h-14 rounded-full bg-[#CE4545] shadow-2xl border border-[#CE4545] flex items-center justify-center hover:bg-[#b83a3a] opacity-0 pointer-events-auto will-change-transform">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+            </svg>
+            <span class="absolute -bottom-6 text-[10px] font-bold tracking-widest text-gray-700 whitespace-nowrap">VIEW</span>
+        </button>
+
+        <div class="relative max-w-[1600px] mx-auto px-6 lg:px-12 py-24 lg:py-32 text-center">
 
             <!-- 상단 라벨 -->
-            <div class="flex items-center justify-between mb-10 lg:mb-16">
-                <div class="flex items-center gap-4">
-                    <div class="text-base lg:text-lg font-black text-gray-900">6</div>
-                    <div class="w-32 lg:w-72 h-px bg-gray-300"></div>
-                    <div class="text-xs lg:text-sm font-bold tracking-[0.25em] text-gray-700">Point</div>
-                </div>
-                <div class="hidden md:block text-[10px] lg:text-xs font-mono tracking-[0.35em] text-gray-400">CLASS PERFORMANCE · RESULTS</div>
+            <div class="flex items-center justify-center gap-4 mb-10 lg:mb-16">
+                <div class="text-xs lg:text-sm font-bold tracking-[0.25em] text-gray-700">Target Point</div>
+                <div class="hidden md:block text-[10px] lg:text-xs font-mono tracking-[0.35em] text-gray-400">· CLASS PERFORMANCE · RESULTS</div>
             </div>
 
             <!-- 큰 타이틀 -->
             <div class="mb-16 lg:mb-24 sec9-head">
-                <h2 class="text-3xl md:text-5xl lg:text-[3.6rem] font-black tracking-tighter text-gray-900" style="line-height: 1.2;">
-                    결과로 이어지는 수업 운영.
+                <h2 class="text-3xl md:text-5xl lg:text-[3.6rem] font-black tracking-tighter text-gray-900 mx-auto max-w-4xl" style="line-height: 1.2;">
+                    한번도 만나본적 없는 인생쌤이 되도록 노력하겠습니다.
                 </h2>
             </div>
 
             <!-- 4개 큰 통계 -->
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-10 mb-16 lg:mb-24">
-                <div class="result-stat text-center lg:text-left">
-                    <div class="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 italic mb-3" style="font-family: 'Times New Roman', serif;">87%</div>
+                <div class="result-stat text-center">
+                    <div class="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 italic mb-3" style="font-family: 'Times New Roman', serif;">
+                        <span class="num-count" data-target="91" data-suffix="%">0%</span>
+                    </div>
                     <div class="text-sm lg:text-base text-gray-600 font-light">수료율</div>
                 </div>
-                <div class="result-stat text-center lg:text-left bg-[#cfc8b8] rounded-2xl p-6 lg:p-8 -mt-2 lg:-mt-4">
-                    <div class="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 italic mb-3" style="font-family: 'Times New Roman', serif;">83%<span class="text-[#CE4545]">+</span></div>
+                <div class="result-stat text-center">
+                    <div class="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 italic mb-3" style="font-family: 'Times New Roman', serif;">
+                        <span class="num-count" data-target="82" data-suffix="%">0%</span><span class="text-[#CE4545]">+</span>
+                    </div>
                     <div class="text-sm lg:text-base text-gray-800 font-bold">취업률</div>
                 </div>
-                <div class="result-stat text-center lg:text-left">
-                    <div class="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 italic mb-3" style="font-family: 'Times New Roman', serif;">3<span class="text-3xl md:text-4xl lg:text-5xl">종</span></div>
-                    <div class="text-sm lg:text-base text-gray-600 font-light">자격증 지도</div>
+                <div class="result-stat text-center">
+                    <div class="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-3">
+                        <span class="num-count" data-target="5">0</span>/<span class="num-count" data-target="5">0</span>
+                    </div>
+                    <div class="text-sm lg:text-base text-gray-600 font-light">만족도 전국 1위</div>
                 </div>
-                <div class="result-stat text-center lg:text-left">
-                    <div class="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-3">1:1</div>
+                <div class="result-stat text-center">
+                    <div class="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-3">
+                        <span class="num-count" data-target="1">0</span>:<span class="num-count" data-target="1">0</span>
+                    </div>
                     <div class="text-sm lg:text-base text-gray-600 font-light">작업 피드백</div>
                 </div>
             </div>
 
             <!-- 하단 마무리 문구 -->
             <div class="border-t border-gray-200 pt-10 lg:pt-12 sec9-foot">
-                <p class="text-base md:text-lg lg:text-xl text-gray-900 font-bold text-center" style="line-height: 1.6;">
-                    학생들이 끝까지 완주하고, 자격증과 포트폴리오를 <span class="text-[#CE4545]">취업 준비에 활용</span>할 수 있도록 결과 중심으로 지도합니다.
+                <p class="text-base md:text-lg lg:text-xl text-gray-900 font-bold text-center mx-auto max-w-3xl" style="line-height: 1.6;">
+                    내 마음대로 바꾸는 포트폴리오가 아니라 <span class="text-[#CE4545]">학생의 개성을 살려주는 피드백을 통해 </span>발전 중심으로 지도합니다.
                 </p>
             </div>
 
         </div>
     </section>
 
+    <!-- 섹션9 이미지 모달 (km10.jpg) -->
+    <div id="sec9-modal">
+        <img src="images/km10.jpg" alt="강경모 강사">
+    </div>
+
     <!-- ==================== SECTION 10 (was 6: 연락처 + 문의 폼) ==================== -->
-    <section id="section10" class="relative w-full min-h-screen bg-[#111111] text-white border-t border-gray-800 py-24 lg:py-32 overflow-hidden">
-        <div class="max-w-[1600px] mx-auto px-6 lg:px-12">
+    <section id="section10" class="relative w-full h-screen bg-[#111111] text-white border-t border-gray-800 py-12 lg:py-16 overflow-hidden flex items-center">
+        <!-- 반딧불 10마리 -->
+        <div class="firefly"></div>
+        <div class="firefly"></div>
+        <div class="firefly"></div>
+        <div class="firefly"></div>
+        <div class="firefly"></div>
+        <div class="firefly"></div>
+        <div class="firefly"></div>
+        <div class="firefly"></div>
+        <div class="firefly"></div>
+        <div class="firefly"></div>
+
+        <div class="relative max-w-[1600px] w-full mx-auto px-6 lg:px-12 z-10">
             
             <!-- 헤더 -->
-            <div class="mb-16 lg:mb-24">
-                <span class="inline-block w-12 h-[6px] bg-[#CE4545] mb-6"></span>
-                <h2 class="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter" style="line-height: 1.1;">Contact.</h2>
-                <p class="text-gray-400 text-lg lg:text-xl mt-6 font-light">함께 즐겁게 배우실 분, 언제든 연락주세요.</p>
+            <div class="mb-6 lg:mb-10">
+                <span class="inline-block w-12 h-[5px] bg-[#CE4545] mb-3"></span>
+                <h2 class="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter" style="line-height: 1.05;">Contact.</h2>
+                <p class="text-gray-400 text-base lg:text-lg mt-3 font-light">함께 즐겁게 배우실 분, 언제든 연락주세요.</p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
-                
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+
                 <!-- 좌측: 연락처 정보 -->
-                <div class="space-y-12">
+                <div class="space-y-6">
                     
                     <!-- 강쌤 -->
                     <div>
-                        <div class="text-xs text-[#CE4545] font-bold tracking-[0.3em] mb-3">TEACHER</div>
-                        <h3 class="text-2xl lg:text-3xl font-bold mb-6 text-white">강경모 선생님</h3>
-                        <ul class="space-y-3 text-gray-300">
+                        <div class="text-xs text-[#CE4545] font-bold tracking-[0.3em] mb-2">TEACHER</div>
+                        <h3 class="text-xl lg:text-2xl font-bold mb-3 text-white">강경모 선생님</h3>
+                        <ul class="space-y-2 text-gray-300">
                             <li class="flex items-center gap-4">
                                 <span class="text-xs text-gray-500 w-20 font-mono tracking-wider">MOBILE</span>
                                 <a href="tel:01033217317" class="hover:text-[#CE4545] transition-colors text-lg">010-3321-7317</a>
@@ -1222,7 +1396,7 @@
             // 데이터 생성 (히스토리/기수/포트폴리오/후기)
             // ==========================================
             const histories = [
-                { year: "2004 - 2005", title: "웹디자이너 병아리 시작 iptime 근무" },
+                { year: "2004 - 2005", title: "웹디자이너 병아리 시작 ipplay 근무" },
                 { year: "2006 - 2015", title: "리전테크 담당 웹디자이너" },
                 { year: "2007 - 2017", title: "웹에이젼시 웹네스트 창설" },
                 { year: "2009 - 2014", title: "HEYMAN 쇼핑몰 운영&마케팅&대박" },
@@ -1313,7 +1487,7 @@
                         </div>
                     </div>
                     <div class="mt-5 flex justify-between items-end border-b-2 border-gray-900 pb-2">
-                        <div class="text-xs text-blue-600 font-bold font-mono tracking-widest">${String(item.batch).padStart(2, '0')}기</div>
+                        <div class="text-xs text-[#CE4545] font-bold font-mono tracking-widest">${String(item.batch).padStart(2, '0')}기</div>
                         <div class="text-lg font-black text-gray-900">${item.student}</div>
                     </div>
                     <div class="mt-1 text-[10px] text-gray-500 text-right uppercase tracking-wider font-medium">${item.title}</div>
@@ -1325,7 +1499,7 @@
             const setActiveBatch = (batch) => {
                 batchMap.forEach((li, num) => {
                     if (num === batch) {
-                        li.className = 'batch-item text-blue-600 font-bold text-3xl transition-all duration-300';
+                        li.className = 'batch-item text-[#CE4545] font-bold text-3xl transition-all duration-300';
                     } else {
                         li.className = 'batch-item text-gray-300 font-light text-base hover:text-gray-900 transition-all duration-300';
                     }
@@ -1657,17 +1831,7 @@
                 x: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power3.out"
             });
 
-            // 섹션3 다크 → 라이트 전환 (3/4 보이면 흰색으로)
-            const section3El = document.getElementById('section3');
-            if (section3El) {
-                section3El.classList.add('is-dark');
-                ScrollTrigger.create({
-                    trigger: '#section3',
-                    start: 'top 25%',                       // 섹션3 상단이 viewport 25%에 도달 = 화면의 3/4 보임
-                    onEnter:     () => section3El.classList.remove('is-dark'),
-                    onLeaveBack: () => section3El.classList.add('is-dark')
-                });
-            }
+            // 섹션3 다크 → 라이트 전환 제거됨 (항상 흰색)
 
             // 섹션3 기수 메뉴 동기화
             const batchWrap = document.getElementById('batch-menu-wrap');
@@ -1710,22 +1874,28 @@
 
             // [★ 사진 등록 안내 ★] images/1gi.jpg ~ images/18gi.jpg 중 랜덤 표시
             const randomImages = Array.from({ length: 18 }, (_, i) => `images/${i + 1}gi.jpg`);
-            const previewImage = new Image();
+
+            // 페이지 진입 시 모든 기수 이미지를 미리 로드해 둠 (mousemove 시 로딩 텍스트 표시 안 함)
+            const preloadedHoverImages = {};
+            randomImages.forEach((src) => {
+                const img = new Image();
+                img.onload = () => { preloadedHoverImages[src] = 'ok'; };
+                img.onerror = () => { preloadedHoverImages[src] = 'err'; };
+                img.src = src;
+                preloadedHoverImages[src] = img;
+            });
+
             const setHoverPreview = (src) => {
-                hoverImg.classList.add('hidden');
-                hoverText.classList.remove('hidden');
-                hoverText.textContent = '이미지 불러오는 중...';
-                previewImage.onload = () => {
-                    hoverImg.src = src;
-                    hoverImg.classList.remove('hidden');
-                    hoverText.classList.add('hidden');
-                };
-                previewImage.onerror = () => {
+                // 캐시 상태 확인 후 즉시 표시 (불러오는 중 텍스트 없이)
+                if (preloadedHoverImages[src] === 'err') {
                     hoverImg.classList.add('hidden');
                     hoverText.classList.remove('hidden');
                     hoverText.textContent = '이미지 준비중입니다.';
-                };
-                previewImage.src = src;
+                    return;
+                }
+                hoverImg.src = src;
+                hoverImg.classList.remove('hidden');
+                hoverText.classList.add('hidden');
             };
 
             let lastMousePos = { x: 0, y: 0 };
@@ -1738,6 +1908,16 @@
 
             sec5.addEventListener('mouseleave', () => {
                 gsap.to(hoverWrap, {opacity: 0, scale: 0.5, duration: 0.2});
+            });
+
+            // 휠 스크롤만으로 섹션5를 벗어나면 mouseleave 가 안 떨어질 수 있어
+            // ScrollTrigger 로 섹션5가 viewport 밖으로 나가면 강제 hide
+            ScrollTrigger.create({
+                trigger: '#section5',
+                start: 'top bottom',
+                end: 'bottom top',
+                onLeave:     () => gsap.to(hoverWrap, { opacity: 0, scale: 0.5, duration: 0.2 }),
+                onLeaveBack: () => gsap.to(hoverWrap, { opacity: 0, scale: 0.5, duration: 0.2 })
             });
 
             sec5.addEventListener('mousemove', (e) => {
@@ -1930,28 +2110,143 @@
 
 
             // ==========================================
-            // ★ 새 섹션 6,7,8,9 - 스크롤 도착 시 요소들 등장 (GSAP)
-            // 단순 fade + translate-y. transition CSS 는 사용하지 않음.
+            // ★ 섹션6 - 좌측 리스트 단순 등장 + 우측 패널 굴러오기 + km7 슬라이드 인
             // ==========================================
-            const sec6Targets = document.querySelectorAll('#section6 .sec6-left h2, #section6 .feat-item, #section6 .sec6-right');
-            if (sec6Targets.length) {
-                gsap.set(sec6Targets, { opacity: 0, y: 40 });
-                gsap.to(sec6Targets, {
+            const sec6LeftTargets = document.querySelectorAll('#section6 .sec6-left h2, #section6 .feat-item');
+            if (sec6LeftTargets.length) {
+                gsap.set(sec6LeftTargets, { opacity: 0, y: 40 });
+                gsap.to(sec6LeftTargets, {
                     scrollTrigger: { trigger: '#section6', start: 'top 70%' },
                     opacity: 1, y: 0, duration: 0.7, stagger: 0.08, ease: 'power2.out'
                 });
             }
 
-            const sec7Cards = document.querySelectorAll('#section7 .sec7-head, #section7 .curri-card');
-            if (sec7Cards.length) {
-                gsap.set(sec7Cards, { opacity: 0, y: 60 });
-                gsap.to(sec7Cards, {
+            // 우측 패널: 우측 밖에서 30도 기울어진 상태로 굴러옴
+            const sec6Panel = document.querySelector('#section6 .sec6-panel');
+            const sec6Km7   = document.getElementById('sec6-km7');
+            if (sec6Panel) {
+                gsap.set(sec6Panel, {
+                    xPercent: 80,
+                    rotation: 30,
+                    opacity: 0,
+                    transformOrigin: 'bottom right'
+                });
+            }
+            if (sec6Km7) {
+                // 우측 상단 밖에서 시작
+                gsap.set(sec6Km7, {
+                    xPercent: 80,
+                    yPercent: -60,
+                    opacity: 0,
+                    rotation: -6
+                });
+            }
+            ScrollTrigger.create({
+                trigger: '#section6',
+                start: 'top 50%',          // 섹션6에 반정도 도착했을 때
+                onEnter: () => {
+                    if (sec6Panel) {
+                        gsap.to(sec6Panel, {
+                            xPercent: 0, rotation: 0, opacity: 1,
+                            duration: 1.4, ease: 'power3.out'
+                        });
+                    }
+                    if (sec6Km7) {
+                        // 우상 → 좌하로 미끄러지듯 진입, 최종은 박스 우측 5% 걸친 위치
+                        gsap.to(sec6Km7, {
+                            xPercent: 0, yPercent: 0, opacity: 1, rotation: 0,
+                            duration: 1.5, ease: 'power2.out',
+                            delay: 0.55
+                        });
+                    }
+                },
+                onLeaveBack: () => {
+                    if (sec6Panel) {
+                        gsap.to(sec6Panel, {
+                            xPercent: 80, rotation: 30, opacity: 0,
+                            duration: 0.6, ease: 'power2.in'
+                        });
+                    }
+                    if (sec6Km7) {
+                        gsap.to(sec6Km7, {
+                            xPercent: 80, yPercent: -60, opacity: 0, rotation: -6,
+                            duration: 0.5, ease: 'power2.in'
+                        });
+                    }
+                }
+            });
+
+            // ==========================================
+            // ★ 섹션7 - 배경 어두워짐 + km8.jpg + 4개 카드 순차 등장(이전 카드 빨강 플래시)
+            // ==========================================
+            // 헤더만 단순 등장
+            const sec7Head = document.querySelector('#section7 .sec7-head');
+            if (sec7Head) {
+                gsap.set(sec7Head, { opacity: 0, y: 60 });
+                gsap.to(sec7Head, {
                     scrollTrigger: { trigger: '#section7', start: 'top 70%' },
-                    opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: 'power3.out'
+                    opacity: 1, y: 0, duration: 0.8, ease: 'power3.out'
                 });
             }
 
-            const sec8Targets = document.querySelectorAll('#section8 .sec8-left, #section8 .stat-item, #section8 .check-item');
+            // 배경 다크 전환 (화면 1/2 보일 때)
+            const section7El = document.getElementById('section7');
+            if (section7El) {
+                ScrollTrigger.create({
+                    trigger: '#section7',
+                    start: 'top 50%',
+                    onEnter: () => section7El.classList.add('is-dark'),
+                    onLeaveBack: () => section7El.classList.remove('is-dark')
+                });
+            }
+
+            // 4개 카드: 스크롤마다 하나씩 올라오고 이전 카드는 빨강 플래시
+            const curriCards = document.querySelectorAll('#section7 .curri-card');
+            if (curriCards.length) {
+                gsap.set(curriCards, { opacity: 0, yPercent: 80 });
+
+                const sec7Tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: '#section7',
+                        start: 'top top',
+                        end: '+=3200',
+                        pin: true,
+                        scrub: 1,
+                        anticipatePin: 1,
+                        invalidateOnRefresh: true
+                    }
+                });
+
+                curriCards.forEach((card, i) => {
+                    // 카드 등장 (1초 분량)
+                    sec7Tl.to(card, {
+                        opacity: 1,
+                        yPercent: 0,
+                        duration: 1,
+                        ease: 'power2.out'
+                    });
+
+                    // 이전 카드의 빨강 플래시 (이 카드가 올라오는 동안)
+                    if (i > 0) {
+                        const prev = curriCards[i - 1];
+                        sec7Tl.to(prev, {
+                            backgroundColor: '#CE4545',
+                            duration: 0.5,
+                            ease: 'power1.inOut'
+                        }, '<')
+                        .to(prev, {
+                            backgroundColor: '#ffffff',
+                            duration: 0.5,
+                            ease: 'power1.inOut'
+                        });
+                    }
+                });
+            }
+
+            // ==========================================
+            // ★ 섹션8 - 우측 텍스트/통계/체크 단순 등장 (좌측은 km9+말풍선)
+            // ==========================================
+            const sec8Targets = document.querySelectorAll('#section8 .sec8-right h2, #section8 .sec8-right p, #section8 .sec8-right h3, #section8 .stat-item, #section8 .check-item, #section8 .km9-wrap');
             if (sec8Targets.length) {
                 gsap.set(sec8Targets, { opacity: 0, y: 40 });
                 gsap.to(sec8Targets, {
@@ -1960,6 +2255,9 @@
                 });
             }
 
+            // ==========================================
+            // ★ 섹션9 - 단순 등장 + 이미지 보기 모달 토글
+            // ==========================================
             const sec9Targets = document.querySelectorAll('#section9 .sec9-head, #section9 .result-stat, #section9 .sec9-foot');
             if (sec9Targets.length) {
                 gsap.set(sec9Targets, { opacity: 0, y: 40 });
@@ -1968,6 +2266,119 @@
                     opacity: 1, y: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out'
                 });
             }
+
+            // 섹션9 숫자 카운트업 - 스크롤 2/3 도착 시, 각 3초 안에 완료
+            const sec9NumEls = document.querySelectorAll('#section9 .num-count');
+            if (sec9NumEls.length) {
+                ScrollTrigger.create({
+                    trigger: '#section9',
+                    start: 'top 33%',     // 섹션9가 화면의 2/3 이상 보일 때
+                    once: true,
+                    onEnter: () => {
+                        sec9NumEls.forEach((el) => {
+                            const target = parseFloat(el.dataset.target);
+                            const suffix = el.dataset.suffix || '';
+                            const obj = { v: 0 };
+                            gsap.to(obj, {
+                                v: target,
+                                duration: 3,
+                                ease: 'power2.out',
+                                onUpdate: () => {
+                                    el.textContent = Math.round(obj.v) + suffix;
+                                }
+                            });
+                        });
+                    }
+                });
+            }
+
+            // 섹션9 이미지 보기 버튼: 마우스 따라다니는 커서 + 클릭 시 모달 토글
+            const sec9ViewBtn = document.getElementById('sec9-view-btn');
+            const sec9Modal   = document.getElementById('sec9-modal');
+            const sec9El      = document.getElementById('section9');
+            if (sec9ViewBtn && sec9Modal && sec9El) {
+                const BTN_HALF = 28; // 버튼 56px의 절반
+                const btnXTo = gsap.quickTo(sec9ViewBtn, 'x', { duration: 0.15, ease: 'power3' });
+                const btnYTo = gsap.quickTo(sec9ViewBtn, 'y', { duration: 0.15, ease: 'power3' });
+
+                const toggleSec9Modal = (open) => {
+                    if (open) {
+                        sec9Modal.classList.add('is-open');
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        sec9Modal.classList.remove('is-open');
+                        document.body.style.overflow = '';
+                    }
+                };
+
+                sec9El.addEventListener('mousemove', (e) => {
+                    btnXTo(e.clientX - BTN_HALF);
+                    btnYTo(e.clientY - BTN_HALF);
+                });
+                sec9El.addEventListener('mouseenter', () => {
+                    if (!sec9Modal.classList.contains('is-open')) {
+                        gsap.to(sec9ViewBtn, { opacity: 1, scale: 1, duration: 0.3, ease: 'back.out(1.5)' });
+                    }
+                });
+                sec9El.addEventListener('mouseleave', () => {
+                    gsap.to(sec9ViewBtn, { opacity: 0, scale: 0.5, duration: 0.2 });
+                });
+
+                // 휠로만 섹션9를 벗어나면 mouseleave 가 안 떨어질 수 있어 ScrollTrigger 로 강제 hide
+                ScrollTrigger.create({
+                    trigger: '#section9',
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    onLeave:     () => gsap.to(sec9ViewBtn, { opacity: 0, scale: 0.5, duration: 0.2 }),
+                    onLeaveBack: () => gsap.to(sec9ViewBtn, { opacity: 0, scale: 0.5, duration: 0.2 })
+                });
+
+                sec9ViewBtn.addEventListener('click', () => {
+                    toggleSec9Modal(!sec9Modal.classList.contains('is-open'));
+                });
+                sec9Modal.addEventListener('click', () => toggleSec9Modal(false));
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && sec9Modal.classList.contains('is-open')) {
+                        toggleSec9Modal(false);
+                    }
+                });
+            }
+
+            // ==========================================
+            // ★ 섹션10 - 반딧불 10마리 자연스러운 비행 + 깜빡임
+            // ==========================================
+            const fireflies = document.querySelectorAll('#section10 .firefly');
+            fireflies.forEach((f) => {
+                // 랜덤 초기 위치
+                gsap.set(f, {
+                    left: (10 + Math.random() * 80) + '%',
+                    top:  (10 + Math.random() * 80) + '%',
+                    opacity: 0.2 + Math.random() * 0.6,
+                    scale: 0.6 + Math.random() * 0.8
+                });
+
+                // 비행 (랜덤 좌표 반복)
+                const fly = () => {
+                    gsap.to(f, {
+                        x: (Math.random() - 0.5) * 400,
+                        y: (Math.random() - 0.5) * 300,
+                        duration: 6 + Math.random() * 6,
+                        ease: 'sine.inOut',
+                        onComplete: fly
+                    });
+                };
+                fly();
+
+                // 깜빡임
+                gsap.to(f, {
+                    opacity: 0.15 + Math.random() * 0.3,
+                    duration: 0.8 + Math.random() * 1.2,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: 'sine.inOut',
+                    delay: Math.random()
+                });
+            });
 
             // ==========================================
             // ★ 섹션10 - 문의 폼 → 1215kkm@naver.com 로 이메일 발송 (Web3Forms)
